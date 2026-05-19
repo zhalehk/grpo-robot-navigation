@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+.env.ml
+wandb/
+qwen_grpo_robot/
+smolvlm_grpo_robot/
+smolvlm_grpo_robot2/
+*.safetensors
+*.bin
+.claude/

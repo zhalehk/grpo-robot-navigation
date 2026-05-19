@@ -1,0 +1,15 @@
+MODEL_NAME = "Qwen/Qwen2-VL-2B-Instruct"
+OUTPUT_DIR = "./qwen_grpo_robot"
+DATASET_NAME = "reasoning-augmentation/reasoning_distractors_choice_deduped"
+DATASET_SPLIT = "train"
+ALPHA = 0.5
+BETA = 0.3
+GAMMA = 0.2
+NUM_EPOCHS = 1
+BATCH_SIZE = 2
+LEARNING_RATE = 1e-6
+MAX_COMPLETION_LENGTH = 256
+NUM_GENERATIONS = 2
+USE_VLLM = False
+SAVE_STEPS = 2000
+LOGGING_STEPS = 10
