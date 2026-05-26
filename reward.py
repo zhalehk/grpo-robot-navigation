@@ -43,17 +43,14 @@ def extract_motivation_and_score(text):
     return motivation, score
 
 def compute_template_reward(text):
-    reward = 0.0
     has_motivation = bool(re.search(r"<motivation>.*?</motivation>", text, re.DOTALL | re.IGNORECASE))
     has_score = bool(re.search(r"<score>[012]</score>", text, re.IGNORECASE))
-    if has_motivation:
-        reward += 0.5
-    if has_score:
-        reward += 0.5
     starts_correctly = bool(re.match(r"^\s*<motivation>", text, re.IGNORECASE))
-    if not starts_correctly:
-        reward -= 0.5
-    return max(0.0, reward)
+    
+    if not has_motivation or not has_score or not starts_correctly:
+        return -5.0  # large penalty for wrong template!
+    
+    return 1.0  # correct template!
 
 def compute_score_reward(predicted, ground_truth):
     if predicted is None:
@@ -90,6 +87,8 @@ def reward_function(prompts, completions, reasoning, score, **kwargs):
             text = completion[0]["content"]
         else:
             text = str(completion)
+            
+        print(f"  COMPLETION: {text[:200]}")  # check first 200 chars
         motivation, pred_score = extract_motivation_and_score(text)
         template_r = compute_template_reward(text)
         score_r = compute_score_reward(pred_score, gt_score)
