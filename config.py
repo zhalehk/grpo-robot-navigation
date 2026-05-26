@@ -1,7 +1,7 @@
 MODEL_NAME = "Qwen/Qwen2-VL-7B-Instruct"
 EVALUATOR_MODEL_NAME = "gpt-oss-120b"
 OUTPUT_DIR = "./qwen_grpo_robot"
-DATASET_NAME = "DATASET_NAME = "reasoning-augmentation/reasoning_distractors_choice_deduped_templated""
+DATASET_NAME = "DATASET_NAME = "reasoning-augmentation/reasoning_distractors_choice_deduped_templated"
 DATASET_SPLIT = "train"
 ALPHA = 0.5
 BETA = 0.3
