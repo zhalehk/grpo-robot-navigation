@@ -44,8 +44,7 @@ how well the provided image aligns with the user's task. Assign
 a confidence score based on the following scale: - 0: You are
 certain the image DOES NOT match the task. - 1: You are unsure
 whether the image matches the task or not. - 2: You are certain
-the image DOES match the task. Provide a concise reasoning
-(under 100 words) and strictly follow this output format:
+the image DOES match the task. Strictly start your response with <motivation> with no text before it, and follow this exact format:
 <motivation>Your reasoning here</motivation><score>0, 1, or 2</score>"""
 
     messages = [

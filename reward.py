@@ -50,7 +50,10 @@ def compute_template_reward(text):
         reward += 0.5
     if has_score:
         reward += 0.5
-    return reward
+    starts_correctly = bool(re.match(r"^\s*<motivation>, text, re.IGNORECASE))
+    if not starts_correctly:
+        reward -= 0.5
+    return max(0.0, reward)
 
 def compute_score_reward(predicted, ground_truth):
     if predicted is None:
