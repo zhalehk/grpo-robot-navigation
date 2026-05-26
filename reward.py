@@ -96,7 +96,7 @@ def reward_function(prompts, completions, reasoning, score, **kwargs):
         if motivation:
             reasoning_r = compute_reasoning_reward(motivation, gt_reasoning)
         final = ALPHA * reasoning_r + BETA * score_r + GAMMA * template_r
-        final = max(0.0, min(1.0, final))
+        final = max(-5.0, min(1.0, final))
         rewards.append(final)
         print(f"  template={template_r:.2f} score={score_r:.2f} reasoning={reasoning_r:.2f} → final={final:.2f}")
     return rewards
