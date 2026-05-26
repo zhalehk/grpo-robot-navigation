@@ -1,13 +1,15 @@
 import os
 import logging
 import torch
+from transformers import Qwen2VLForConditionalGeneration, AutoTokenizer, AutoProcessor
 from trl import GRPOTrainer, GRPOConfig
 from config import (
     MODEL_NAME, OUTPUT_DIR, DATASET_NAME,
-    DATASET_SPLIT, NUM_EPOCHS, BATCH_SIZE,
+    DATASET_SPLIT, NUM_EPOCHS, BATCH_SIZE, PER_DEVICE_TRAIN_BATCH_SIZE,
     LEARNING_RATE, MAX_COMPLETION_LENGTH,
     NUM_GENERATIONS, SAVE_STEPS, LOGGING_STEPS
 )
+from peft import LoraConfig, get_peft_model
 from dataset import load_robot_dataset
 from reward import reward_function
 
@@ -49,7 +51,7 @@ def main():
         config = GRPOConfig(
             output_dir                   = OUTPUT_DIR,
             num_train_epochs             = NUM_EPOCHS,
-            per_device_train_batch_size  = 2,
+            per_device_train_batch_size  = PER_DEVICE_TRAIN_BATCH_SIZE,
             num_generations              = NUM_GENERATIONS,
             max_completion_length        = MAX_COMPLETION_LENGTH,
             learning_rate                = LEARNING_RATE,
@@ -62,8 +64,24 @@ def main():
             use_vllm                     = False,
             report_to                    = "wandb",
         )
+        lora_config = LoraConfig(
+            task_type="CAUSAL_LM",
+            r=128,
+            lora_alpha=64,
+            target_modules="all-linear",
+        )
+        model = Qwen2VLForConditionalGeneration.from_pretrained(
+            MODEL_NAME,
+            torch_dtype="auto",
+            device_map="auto",
+            #attn_implementation="flash_attention_2",
+        )
+
+        model = get_peft_model(model, lora_config)
+
+        print(model.print_trainable_parameters())
         trainer = GRPOTrainer(
-            model            = MODEL_NAME,
+            model            = model,
             args             = config,
             train_dataset    = train_dataset,
             processing_class = processor,
