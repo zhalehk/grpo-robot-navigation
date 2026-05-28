@@ -70,7 +70,7 @@ def load_robot_dataset(dataset_name=DATASET_NAME, dataset_split=DATASET_SPLIT):
     filtered = raw_dataset.filter(is_valid)
     logger.info(f"Valid rows: {len(filtered)}")
 
-    dataset = filtered.map(format_single_example, remove_columns=filtered.column_names)
+    dataset = RobotDataset(filtered)
     logger.info(f"Dataset ready! {len(dataset)} examples")
     return dataset
 
