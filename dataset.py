@@ -22,10 +22,14 @@ def get_pil_image(image):
 
 
 def format_single_example(example):
-    task  = example["task"]   # already full prompt in _templated dataset
-    image = get_pil_image(example["image"])  # live PIL, not serialized
+    task  = example["task"]
+    image = get_pil_image(example["image"])
 
     messages = [
+        {
+            "role": "system",
+            "content": "You are a robot navigation assistant. You MUST respond ONLY with this exact format, nothing before or after: <motivation>your reasoning here</motivation><score>0, 1, or 2</score>"
+        },
         {
             "role": "user",
             "content": [
