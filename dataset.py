@@ -72,6 +72,13 @@ def load_robot_dataset(dataset_name=DATASET_NAME, dataset_split=DATASET_SPLIT):
 
     dataset = RobotDataset(filtered)
     logger.info(f"Dataset ready! {len(dataset)} examples")
+    sample = dataset[0]
+    print("\n=== FULL PROMPT ===")
+    for msg in sample["prompt"]:
+        for part in msg["content"]:
+            if part["type"] == "text":
+                print(part["text"])
+    print("=== END PROMPT ===\n")
     return dataset
 
 
