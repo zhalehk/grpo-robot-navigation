@@ -1,3 +1,6 @@
+import json
+from datetime import datetime
+COMPLETIONS_LOG = "completions_log.jsonl"
 import re
 import logging
 from config import ALPHA, BETA, GAMMA
@@ -87,8 +90,18 @@ def reward_function(prompts, completions, reasoning, score, **kwargs):
             text = completion[0]["content"]
         else:
             text = str(completion)
-            
-        print(f"  COMPLETION: {text[:200]}")  # check first 200 chars
+
+        # ✅ Log full completion to disk
+        with open(COMPLETIONS_LOG, "a") as f:
+            json.dump({
+                "timestamp":        datetime.now().isoformat(),
+                "completion":       text,
+                "follows_template": text.strip().startswith("<motivation>"),
+                "gt_score":         int(gt_score),
+            }, f)
+            f.write("\n")
+
+        print(f"  COMPLETION: {text[:200]}")
         motivation, pred_score = extract_motivation_and_score(text)
         template_r = compute_template_reward(text)
         score_r = compute_score_reward(pred_score, gt_score)
