@@ -21,28 +21,32 @@ def get_pil_image(image):
     return None
 
 
-
 def format_single_example(example):
-    task = example["task"]  # already has full prompt!
-    reasoning = example["reasoning"]
-    score     = int(example["score"])
-    image     = get_pil_image(example["image"])
+    task  = example["task"]   # already full prompt in _templated dataset
+    image = get_pil_image(example["image"])  # live PIL, not serialized
 
     messages = [
         {
             "role": "user",
             "content": [
                 {"type": "image", "image": image},
-                {"type": "text", "text": task},  # use task directly!
+                {"type": "text",  "text": task},
             ],
         }
     ]
     return {
         "prompt":    messages,
-        "reasoning": reasoning,
-        "score":     score,
+        "reasoning": example["reasoning"],
+        "score":     int(example["score"]),
     }
-    
+
+class RobotDataset:
+    def __init__(self, hf_dataset):
+        self.dataset = hf_dataset
+    def __len__(self):
+        return len(self.dataset)
+    def __getitem__(self, idx):
+        return format_single_example(self.dataset[idx])  # PIL created fresh each time ✅
 
 
 
