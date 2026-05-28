@@ -102,6 +102,7 @@ def reward_function(prompts, completions, reasoning, score, **kwargs):
             f.write("\n")
 
         print(f"  COMPLETION: {text[:200]}")
+       
         motivation, pred_score = extract_motivation_and_score(text)
         template_r = compute_template_reward(text)
         score_r = compute_score_reward(pred_score, gt_score)
