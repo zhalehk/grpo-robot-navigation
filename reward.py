@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-COMPLETIONS_LOG = "completions_log.jsonl"
+COMPLETIONS_LOG = "COMPLETIONS_LOG = "/kaggle/working/completions_log.jsonl"
 import re
 import logging
 from config import ALPHA, BETA, GAMMA
@@ -101,7 +101,7 @@ def reward_function(prompts, completions, reasoning, score, **kwargs):
             }, f)
             f.write("\n")
 
-        print(f"  COMPLETION: {text[:200]}")
+        print(f"  COMPLETION: {text}")
        
         motivation, pred_score = extract_motivation_and_score(text)
         template_r = compute_template_reward(text)
