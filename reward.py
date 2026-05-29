@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-COMPLETIONS_LOG = "COMPLETIONS_LOG = "/kaggle/working/completions_log.jsonl"
+COMPLETIONS_LOG = "/kaggle/working/completions_log.jsonl"
 import re
 import logging
 from config import ALPHA, BETA, GAMMA
