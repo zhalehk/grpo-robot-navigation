@@ -24,9 +24,6 @@ def get_pil_image(image):
 def format_single_example(example):
     task  = example["task"]
     image = get_pil_image(example["image"])
-    def format_single_example(example):
-    task  = example["task"]
-    image = get_pil_image(example["image"])
     messages = [
         {
             "role": "user",
