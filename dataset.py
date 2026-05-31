@@ -26,6 +26,10 @@ def format_single_example(example):
     image = get_pil_image(example["image"])
     messages = [
         {
+            "role": "system",
+            "content": "You are a robot navigation assistant. You MUST start your response immediately with <motivation> — no text before it. Format: <motivation>reasoning</motivation><score>0, 1, or 2</score>. Nothing before <motivation>, nothing after </score>."
+        },
+        {
             "role": "user",
             "content": [
                 {"type": "image", "image": image},
