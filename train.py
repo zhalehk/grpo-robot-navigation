@@ -63,7 +63,6 @@ def main():
             gradient_checkpointing       = True,
             use_vllm                     = False,
             report_to                    = "wandb",
-            assistant_prefix             = "<motivation>",
         )
         lora_config = LoraConfig(
             task_type="CAUSAL_LM",
